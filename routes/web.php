@@ -15,7 +15,8 @@ use App\Http\Controllers\DepartemenTerlibatController;
 use App\Http\Controllers\TugasProduksiController;
 use App\Http\Controllers\PersetujuanManagerController;
 use App\Http\Controllers\PdfController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\SsoController;
+use App\Http\Controllers\Master\SsoApplicationController;
 use App\Http\Controllers\DaftarPenggunaController;
 use App\Http\Controllers\NotifikasiController;
 
@@ -27,11 +28,16 @@ Route::get('testing', [DashboardController::class, 'testing'])->name('testing');
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'index'])->name('login');
     Route::post('login', [LoginController::class, 'store'])->name('login.store');
-    Route::get('register', [RegisterController::class, 'index'])->name('register');
-    Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+    Route::get('auth/sso', [SsoController::class, 'redirect'])->name('sso.redirect')->block(45, 45);
+    Route::get('auth/sso/callback', [SsoController::class, 'callback'])->name('sso.callback')->block(45, 45);
 });
 
 Route::post('logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
+
+Route::middleware('auth', 'role:admin')->group(function () {
+    Route::get('master/sso-applications', [SsoApplicationController::class, 'index'])->name('sso-applications.index');
+    Route::post('master/sso-applications/{application}/approve', [SsoApplicationController::class, 'approve'])->name('sso-applications.approve');
+});
 
 Route::middleware('auth', 'role:admin|Quality Control')->group(function () {
     // ... route lainnya

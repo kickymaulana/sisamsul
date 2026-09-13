@@ -16,7 +16,9 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
+
+const page = usePage<{ flash: { success?: string; error?: string } }>()
 
 const props = defineProps<{
   class?: HTMLAttributes["class"]
@@ -47,6 +49,11 @@ const submit = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <p v-if="page.props.flash?.error" role="alert" class="mb-4 text-sm text-destructive">{{ page.props.flash.error }}</p>
+        <p v-if="page.props.flash?.success" role="status" class="mb-4 text-sm">{{ page.props.flash.success }}</p>
+        <Button as-child variant="outline" class="mb-6 w-full">
+          <a :href="route('sso.redirect')">Masuk dengan SSO</a>
+        </Button>
         <form @submit.prevent="submit">
           <FieldGroup>
             <Field>

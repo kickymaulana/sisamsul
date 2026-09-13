@@ -102,6 +102,15 @@ const filteredNavMain = computed(() => {
         });
     }
 
+    if (userRoles.value.includes('admin')) {
+        menus.push({
+            title: "Pengajuan SSO",
+            url: route("sso-applications.index"),
+            icon: IconUsers,
+            root: "Master/Users/SsoApplications",
+        });
+    }
+
     menus.push({
         title: "Daftar Pengguna",
         url: route("daftar.pengguna.index"),
