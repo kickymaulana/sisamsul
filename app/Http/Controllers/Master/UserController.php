@@ -96,6 +96,9 @@ class UserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'departemen_id' => ['nullable', 'exists:departemen,id'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
+        ], [
+            // Custom message agar user tidak bingung dengan regex
+            'whatsapp.regex' => 'Format nomor WhatsApp harus diawali dengan 628 diikuti 7–12 digit.',
         ]);
 
         // Update data dasar
