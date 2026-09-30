@@ -41,8 +41,19 @@ class NotifikasiController extends Controller
         // Ambil URL tujuan yang disimpan saat memicu Notification class
         $urlTujuan = $notification->data['url'] ?? route('dashboard');
 
-        // Redirect langsung ke detail departemen_terlibat terkait
-        return redirect($urlTujuan)->with('success', 'Notifikasi diperbarui.');
+        // Normalisasi URL: ambil path+query, strip app base path, lalu rebuild
+        // dengan url() agar otomatis pakai host & base path sesuai environment
+        $parsed = parse_url($urlTujuan);
+        $path   = $parsed['path'] ?? '/';
+        $query  = isset($parsed['query']) ? '?' . $parsed['query'] : '';
+
+        $basePath = rtrim((string) parse_url(config('app.url'), PHP_URL_PATH), '/');
+        if ($basePath !== '' && str_starts_with($path, $basePath)) {
+            $path = substr($path, strlen($basePath));
+        }
+
+        return redirect(url($path . $query))
+            ->with('success', 'Notifikasi diperbarui.');
     }
 
     public function tandai_semua_dibaca(Request $request)

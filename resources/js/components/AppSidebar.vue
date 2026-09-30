@@ -4,6 +4,7 @@ import {
     IconPackage,
     IconFileDescription,
     IconClipboardList,
+    IconClipboardX,
     IconSettingsAutomation,
     IconUsers,
     IconHierarchy,
@@ -84,12 +85,20 @@ const filteredNavMain = computed(() => {
 
     // 2. Menu Tugas Produksi (Admin, Operator, Manager, Supervisor)
     if (canAccessTugasProduksi.value) {
-        menus.push({
-            title: "Tugas Produksi",
-            url: route("tugas.produksi.index"),
-            icon: IconClipboardList,
-            root: "TugasProduksi",
-        });
+        menus.push(
+            {
+                title: "Tugas Produksi",
+                url: route("tugas.produksi.index"),
+                icon: IconClipboardList,
+                root: "TugasProduksi/Index",
+            },
+            {
+                title: "Tugas Belum Diterima",
+                url: route("belum.diterima.index"),
+                icon: IconClipboardX,
+                root: "TugasProduksi/BelumDiterima",
+            },
+        );
     }
 
     // 3. Menu Persetujuan Manager (Admin, QC Manager, Factory Manager)
