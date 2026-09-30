@@ -82,9 +82,14 @@ const cleanLabel = (label: string) => label.includes("Previous") ? "Sebelumnya" 
                                 <td class="px-4 py-3 text-green-600">{{ tugas.qc_user?.name ?? 'Belum diparaf' }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <Button v-if="!is_admin && tab === 'menunggu'" variant="ghost" size="icon" as-child>
-                                        <Link :href="route('formulirs.departemen.edit', { formulir: tugas.formulir_id, departemen_terlibat: tugas.id })"><IconEye class="size-4 text-primary" /></Link>
+                                        <Link :href="route('formulirs.departemen.edit', { formulir: tugas.formulir_id, departemen_terlibat: tugas.id })" title="Buka untuk paraf QC"><IconEye class="size-4 text-primary" /></Link>
                                     </Button>
-                                    <span v-else class="text-xs text-muted-foreground">-</span>
+                                    <Button v-else-if="tab === 'menunggu'" variant="ghost" size="icon" as-child>
+                                        <Link :href="route('tugas.produksi.show', tugas.id)" title="Lihat preview dokumen"><IconEye class="size-4 text-primary" /></Link>
+                                    </Button>
+                                    <Button v-else variant="ghost" size="icon" as-child>
+                                        <Link :href="route('persetujuan.manager.show', tugas.formulir_id)" title="Lihat detail persetujuan"><IconEye class="size-4 text-primary" /></Link>
+                                    </Button>
                                 </td>
                             </tr>
                         </tbody>
