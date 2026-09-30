@@ -10,7 +10,7 @@ class BelumDiterimaController extends Controller
 {
     public function index(Request $request)
     {
-        $isAdmin = $request->user()->hasRole('admin');
+        $isAdmin = $request->user()->hasAnyRole(['admin', 'Quality Control']);
 
         $tugasList = DepartemenTerlibat::query()
             ->join('sub_departemen', 'departemen_terlibat.sub_departemen_id', '=', 'sub_departemen.id')
