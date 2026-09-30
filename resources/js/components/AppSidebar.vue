@@ -5,6 +5,7 @@ import {
     IconFileDescription,
     IconClipboardList,
     IconClipboardX,
+    IconChecklist,
     IconSettingsAutomation,
     IconUsers,
     IconHierarchy,
@@ -99,6 +100,15 @@ const filteredNavMain = computed(() => {
                 root: "TugasProduksi/BelumDiterima",
             },
         );
+    }
+
+    if (isAdminOrQC.value) {
+        menus.push({
+            title: "Paraf QC",
+            url: route("paraf.qc.index"),
+            icon: IconChecklist,
+            root: "TugasProduksi/ParafQc",
+        });
     }
 
     // 3. Menu Persetujuan Manager (Admin, QC Manager, Factory Manager)

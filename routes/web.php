@@ -14,6 +14,7 @@ use App\Http\Controllers\FormulirController;
 use App\Http\Controllers\DepartemenTerlibatController;
 use App\Http\Controllers\TugasProduksiController;
 use App\Http\Controllers\BelumDiterimaController;
+use App\Http\Controllers\ParafQcController;
 use App\Http\Controllers\PersetujuanManagerController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Auth\SsoController;
@@ -107,6 +108,7 @@ Route::middleware('auth', 'role:admin|Quality Control')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('paraf-qc', [ParafQcController::class, 'index'])->name('paraf.qc.index');
     Route::get('belum-diterima', [BelumDiterimaController::class, 'index'])->name('belum.diterima.index');
     Route::get('tugas-produksi', [TugasProduksiController::class, 'index'])->name('tugas.produksi.index');
     Route::get('tugas-produksi/{departemen_terlibat}/edit', [TugasProduksiController::class, 'edit'])->name('tugas.produksi.edit');
